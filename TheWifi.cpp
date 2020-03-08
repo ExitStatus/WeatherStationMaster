@@ -44,10 +44,12 @@ void TheWifi::Render()
     {
         switch (GetStrength())
         {
-            case 0: _lcd->drawBitmap(120, 0, wifiLow, 8, 8, 1); break;
-            case 1: _lcd->drawBitmap(120, 0, wifiMedium, 8, 8, 1); break;
-            case 2: _lcd->drawBitmap(120, 0, wifiHigh, 8, 8, 1); break;
-            default: _lcd->drawBitmap(120, 0, wifiFull, 8, 8, 1); break;
+            case 0: _lcd->drawBitmap(120, 0, wifiPower1, 8, 8, 1); break;
+            case 1: _lcd->drawBitmap(120, 0, wifiPower2, 8, 8, 1); break;
+            case 2: _lcd->drawBitmap(120, 0, wifiPower3, 8, 8, 1); break;
+            case 3: _lcd->drawBitmap(120, 0, wifiPower4, 8, 8, 1); break;
+            case 4: _lcd->drawBitmap(120, 0, wifiPower5, 8, 8, 1); break;
+            default: _lcd->drawBitmap(120, 0, wifiPower6, 8, 8, 1); break;
         }
     }
 
@@ -68,13 +70,19 @@ int TheWifi::GetStrength()
     if (rssi < -80)
         return 0;
 
-    if (rssi < -70)
+    if (rssi< -75)
         return 1;
 
-    if (rssi < -60)
+    if (rssi < -70)
         return 2;
 
-    return 3;
+    if (rssi < -65)
+        return 3;
+
+    if (rssi < -60)
+        return 4;
+
+    return 5;
 }
 
 const __FlashStringHelper *TheWifi::GetStatus()

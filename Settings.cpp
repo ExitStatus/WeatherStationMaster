@@ -154,8 +154,10 @@ void Settings::ResetMaxMin()
     _lcd->print("have been reset");
     _lcd->display();
 
-    Interval shortDelay(5000, false);
-    while (!shortDelay.Ready() && !_middleButton->State() == BUTTON_CLICKED);
+    Interval shortDelay(10000, false);
+    while (!shortDelay.Ready())
+        if (_middleButton->State() == BUTTON_CLICKED)
+            break;
 }
 
 void Settings::MenuWifi()

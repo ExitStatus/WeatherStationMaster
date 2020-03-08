@@ -22,6 +22,7 @@ class Temperature
     float _minHumidity;    
 
     void WaitForInit();
+    void WriteToEEPROM(const __FlashStringHelper *description, float value, int offset);
 
   public: 
     Temperature();

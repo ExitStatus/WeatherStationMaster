@@ -181,11 +181,24 @@ float Temperature::GetMinHumidity()
 void Temperature::ResetMaxMin()
 {
     _minTemperature = _maxTemperature = _currentTemperature;
-    _minHumidity = _maxTemperature = _currentHumidity;
+    _maxHumidity = _minHumidity = _currentHumidity;
 
-    EEPROM.get(EEPROM_TEMP_OFFSET + 2, _minTemperature);
-    EEPROM.get(EEPROM_TEMP_OFFSET + 2 + sizeof(float), _maxTemperature);
-    EEPROM.get(EEPROM_TEMP_OFFSET + 2 + (sizeof(float) * 2), _minHumidity);
-    EEPROM.get(EEPROM_TEMP_OFFSET + 2 + (sizeof(float) * 3), _maxHumidity);
+    WriteToEEPROM(F("min temperature"), _minTemperature, EEPROM_TEMP_OFFSET + 2);
+    WriteToEEPROM(F("max temperature"), _maxTemperature, EEPROM_TEMP_OFFSET + 2 + sizeof(float));
+    WriteToEEPROM(F("min humidity"), _minHumidity, EEPROM_TEMP_OFFSET + 2 + (sizeof(float) * 2));
+    WriteToEEPROM(F("max humidity"), _maxHumidity, EEPROM_TEMP_OFFSET + 2 + (sizeof(float) * 3));
+
     EEPROM.commit();
+}
+
+void Temperature::WriteToEEPROM(const __FlashStringHelper *description, float value, int offset)
+{
+    Serial.print(F("Writing "));
+    Serial.print(description);
+    Serial.print(F(" = "));
+    Serial.print(value);
+    Serial.print(F(" to EEPROM at offset "));
+    Serial.println(offset);
+
+    EEPROM.put(offset, value);
 }
