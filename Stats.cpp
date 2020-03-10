@@ -40,9 +40,9 @@ void Stats::Render()
   _lcd->setTextColor(WHITE);
   
   if (_mode > 1)
-    _lcd->fillRect(0, 0, 128, 64, BLACK);   
+    _lcd->fillRect(1, 0, 128, 64, BLACK);   
   else
-    _lcd->fillRect(0, 38, 128, 26, BLACK);   
+    _lcd->fillRect(1, 38, 128, 26, BLACK);   
 
   float temperature = _temperatureSensor->GetTemperature();
   float humidity = _temperatureSensor->GetHumidity();
@@ -51,78 +51,80 @@ void Stats::Render()
 
   switch (_mode)
   {
-    case 0: RenderStyle0(temperature, humidity, dewpoint, pressure); break;
-    case 1: RenderStyle1(temperature, humidity, dewpoint, pressure); break;
-    case 2: RenderStyle2(temperature, humidity, dewpoint, pressure); break;
-    case 3: RenderStyle3(temperature, humidity, dewpoint, pressure); break;
-    case 4: RenderStyle4(temperature, humidity, dewpoint, pressure); break;
+    case 0: RenderStyle0(); break;
+    case 1: RenderStyle1(); break;
+    case 2: RenderStyle2(); break;
+    case 3: RenderStyle3(); break;
+    case 4: RenderStyle4(); break;
   }
 
   _lcd->display();
 }
 
-void Stats::printTemp(int x, int y, char *prefix, int temp)
+void Stats::printTemp(int x, int y, const __FlashStringHelper *prefix, int temp)
 {
+  char buffer[64];
+
   _lcd->setCursor(x,y);
 
-  char *buffer = new char[6 + strlen(prefix)];
-  sprintf(buffer, "%s%d\0", prefix, temp);
+  sprintf(buffer, "%s%d", prefix, temp);
 
   _lcd->print(buffer);
   _lcd->print(F(" C"));
 
   _lcd->drawBitmap(x + (strlen(buffer) * 6), y,  degreeIcon, 8, 8, WHITE);
 
-  delete[] buffer;
 }
 
-void Stats::printTemp(int x, int y, char *prefix, float temp)
+void Stats::printTemp(int x, int y, const __FlashStringHelper *prefix, float temp)
 {
+  char buffer[64];
+
   _lcd->setCursor(x,y);
 
-  char *buffer = new char[9+strlen(prefix)];
-  sprintf(buffer, "%s%.2f\0", prefix, temp);
+  sprintf(buffer, "%s%.2f", prefix, temp);
 
   _lcd->print(buffer);
   _lcd->print(F(" C"));
 
   _lcd->drawBitmap(x + (strlen(buffer) * 6), y,  degreeIcon, 8, 8, WHITE);
-
-  delete[] buffer;
 }
 
-void Stats::printHumidity(int x, int y, char *prefix, float temp)
+void Stats::printHumidity(int x, int y, const __FlashStringHelper *prefix, float temp)
 {
+  char buffer[64];
+
   _lcd->setCursor(x,y);
 
-  char *buffer = new char[9+strlen(prefix)];
-  sprintf(buffer, "%s%.2f\0", prefix, temp);
+  sprintf(buffer, "%s%.2f", prefix, temp);
 
   _lcd->print(buffer);
   _lcd->print(F("%"));
-  delete[] buffer;
 }
     
-void Stats::printPressure(int x, int y, char *prefix, float temp)
+void Stats::printPressure(int x, int y, const __FlashStringHelper *prefix, float pressure)
 {
+  char buffer[64];
+
   _lcd->setCursor(x,y);
 
-  char *buffer = new char[9+strlen(prefix)];
-  sprintf(buffer, "%s%.2f\0", prefix, temp);
+  sprintf(buffer, "%s%.2f", prefix, pressure);
 
   _lcd->print(buffer);
   _lcd->print(F("mb"));
-  delete[] buffer;
 }
 
-void Stats::RenderStyle0(float temp, float humid, float dew, float pressure)
+void Stats::RenderStyle0()
 {
+  char buffer[12];
+
   _lcd->drawBitmap(20, 38, thermometerIcon, 16, 16, 1);
   _lcd->drawBitmap(56, 38,  dripIcon, 16, 16, 1);
   _lcd->drawBitmap(92, 38,  pressureIcon, 16, 16, 1);
 
-  char *buffer = new char[6];
-  sprintf(buffer, "%d C\0", (int)round(temp));
+  float temp = _temperatureSensor->GetTemperature();
+
+  sprintf(buffer, "%d C", (int)round(temp));
     
   if ((int)round(temp) < 10)
   {
@@ -139,93 +141,91 @@ void Stats::RenderStyle0(float temp, float humid, float dew, float pressure)
     _lcd->drawBitmap(x+12,57,  degreeIcon, 8, 8, WHITE);
   }
 
-  sprintf(buffer, "%d%%\0", (int)round(humid));
+  sprintf(buffer, "%d%%", (int)round(_temperatureSensor->GetHumidity()));
   _lcd->setCursor(64 - ((strlen(buffer) * 6) / 2), 57);
   _lcd->print(buffer); 
 
-  sprintf(buffer, "%d\0", (int)round(pressure));
+  sprintf(buffer, "%d", (int)round(_pressureSensor->GetPressure()));
   _lcd->setCursor(100 - ((strlen(buffer) * 6) / 2), 57);
   _lcd->print(buffer); 
-
-  delete[] buffer;
 }
 
-void Stats::RenderStyle1(float temp, float humid, float dew, float pressure)
+void Stats::RenderStyle1()
 {
-  _lcd->drawFastHLine(0, 38, 128, WHITE);
+  _lcd->drawFastHLine(1, 38, 128, WHITE);
 
-  printTemp(0, 44, " Temp:", (int)round(temp));
-  printTemp(66, 44, "DewP:", (int)round(dew));
+  printTemp(1, 44, F(" Temp:"), (int)round(_temperatureSensor->GetTemperature()));
+  printTemp(67, 44, F("DewP:"), (int)round(_temperatureSensor->GetDewpoint()));
   
-  _lcd->setCursor(0,56);
+  _lcd->setCursor(1,56);
   _lcd->print(F("Humid:"));
-  _lcd->print((int)round(humid));
+  _lcd->print((int)round(_temperatureSensor->GetHumidity()));
   _lcd->print(F("%"));
 
-  _lcd->setCursor(66,56);
+  _lcd->setCursor(67,56);
   _lcd->print(F("Mbar:"));
-  _lcd->print((int)round(pressure));
+  _lcd->print((int)round(_pressureSensor->GetPressure()));
 }
 
-void Stats::RenderStyle2(float temp, float humid, float dew, float pressure)
+void Stats::RenderStyle2()
 {
+  char buffer[16];
+
   _lcd->setCursor(28,14);
   _lcd->setTextColor(WHITE);
   _lcd->setFont(&DSEG7_Classic_Regular_20);
 
-  char *buffer = new char[16];
-  sprintf(buffer, "%0.2f", temp);
+  sprintf(buffer, "%0.2f", _temperatureSensor->GetTemperature());
   _lcd->print(buffer);
-  delete[] buffer;
 
   _lcd->setFont();
   _lcd->setCursor(64 - ((18 * 6)/2) ,25);
-  _lcd->print("Degrees Centigrade");
+  _lcd->print(F("Degrees Centigrade"));
 
-  _lcd->drawFastHLine(0, 38, 128, WHITE);
+  _lcd->drawFastHLine(1, 38, 128, WHITE);
 
-  printTemp(0, 42, "Max:", _temperatureSensor->GetMaxTemperature());
-  printTemp(0, 54, "Min:", _temperatureSensor->GetMinTemperature());
+  printTemp(1, 42, F("Max: "), _temperatureSensor->GetMaxTemperature());
+  printTemp(1, 54, F("Min: "), _temperatureSensor->GetMinTemperature());
 }
 
-void Stats::RenderStyle3(float temp, float humid, float dew, float pressure)
+void Stats::RenderStyle3()
 {
+  char buffer[16];
+
   _lcd->setCursor(28,14);
   _lcd->setTextColor(WHITE);
   _lcd->setFont(&DSEG7_Classic_Regular_20);
 
-  char *buffer = new char[16];
-  sprintf(buffer, "%0.2f", humid);
+  sprintf(buffer, "%0.2f", _temperatureSensor->GetHumidity());
   _lcd->print(buffer);
-  delete[] buffer;
 
   _lcd->setFont();
   _lcd->setCursor(64 - ((16 * 6)/2) ,25);
-  _lcd->print("Percent Humidity");
+  _lcd->print(F("Percent Humidity"));
 
-  _lcd->drawFastHLine(0, 38, 128, WHITE);
+  _lcd->drawFastHLine(1, 38, 128, WHITE);
 
-  printHumidity(0, 42, "Max:", _temperatureSensor->GetMaxHumidity());
-  printHumidity(0, 54, "Min:", _temperatureSensor->GetMinHumidity());
+  printHumidity(1, 42, F("Max: "), _temperatureSensor->GetMaxHumidity());
+  printHumidity(1, 54, F("Min: "), _temperatureSensor->GetMinHumidity());
 }
 
-void Stats::RenderStyle4(float temp, float humid, float dew, float pressure)
+void Stats::RenderStyle4()
 {
+  char buffer[16];
+
   _lcd->setCursor(10,14);
   _lcd->setTextColor(WHITE);
   _lcd->setFont(&DSEG7_Classic_Regular_20);
 
-  char *buffer = new char[16];
-  sprintf(buffer, "%0.2f%", pressure);
+  sprintf(buffer, "%0.2f%", _pressureSensor->GetPressure());
   _lcd->print(buffer);
-  delete[] buffer;
 
   _lcd->setFont();
   _lcd->setCursor(64 - ((18 * 6)/2) ,25);
-  _lcd->print("Millibars Pressure");
+  _lcd->print(F("Millibars Pressure"));
 
-  _lcd->drawFastHLine(0, 38, 128, WHITE);
+  _lcd->drawFastHLine(1, 38, 128, WHITE);
 
-  printPressure(0, 42, "Max:", _pressureSensor->GetMaxPressure());
-  printPressure(0, 54, "Min:", _pressureSensor->GetMinPressure());
+  printPressure(1,42,F("Max: "), _pressureSensor->GetMaxPressure());
+  printPressure(1,54,F("Min: "), _pressureSensor->GetMinPressure());
 }

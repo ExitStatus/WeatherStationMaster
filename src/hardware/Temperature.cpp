@@ -113,6 +113,9 @@ float Temperature::GetTemperature()
         EEPROM.commit();
     }
 
+    Serial.print("Current temp=");
+    Serial.println(_currentTemperature);
+    
     return _currentTemperature;
 }
 

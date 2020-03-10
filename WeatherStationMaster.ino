@@ -57,7 +57,7 @@ void setup()
   rightButton = new Button(PIN_RIGHT);
 
   network = new TheWifi(0, &lcd);
-  ntpInterval = new Interval(3600000, false);
+  ntpInterval = new Interval(3600000, true);
 }
 
 void loop() 

@@ -27,16 +27,16 @@ class Stats
 
     uint8_t _mode = 0;
 
-    void RenderStyle0(float temp, float humid, float dew, float pressure);
-    void RenderStyle1(float temp, float humid, float dew, float pressure);
-    void RenderStyle2(float temp, float humid, float dew, float pressure);
-    void RenderStyle3(float temp, float humid, float dew, float pressure);
-    void RenderStyle4(float temp, float humid, float dew, float pressure);
+    void RenderStyle0();
+    void RenderStyle1();
+    void RenderStyle2();
+    void RenderStyle3();
+    void RenderStyle4();
 
-    void printTemp(int x, int y, char *prefix, int temp);
-    void printTemp(int x, int y, char *prefix, float temp);
-    void printHumidity(int x, int y, char *prefix, float temp);
-    void printPressure(int x, int y, char *prefix, float temp);
+    void printTemp(int x, int y, const __FlashStringHelper *prefix, int temp);
+    void printTemp(int x, int y, const __FlashStringHelper *prefix, float temp);
+    void printHumidity(int x, int y, const __FlashStringHelper *prefix, float temp);
+    void printPressure(int x, int y, const __FlashStringHelper *prefix, float pressure);
   public: 
     Stats(Tiny_SH1106 *lcd);
     ~Stats();

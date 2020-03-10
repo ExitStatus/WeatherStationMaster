@@ -136,6 +136,9 @@ uint32_t TheWifi::GetNtpTime()
 
 void TheWifi::SetNtpTime(ClockTime *clockTime)
 {
+    if (WiFi.status() != WL_CONNECTED)
+        return;
+        
     struct tm timeinfo;
 
     configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);

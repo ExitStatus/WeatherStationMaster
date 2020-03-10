@@ -79,7 +79,7 @@ void Settings::DrawMenu(int firstItem, int selectedItem)
         uint16_t background = currentItem == selectedItem ? WHITE : BLACK;
         uint16_t foreground = currentItem == selectedItem ? BLACK : WHITE;
 
-        _lcd->fillRect(0, y, 128, 10, background);
+        _lcd->fillRect(1, y, 128, 10, background);
         _lcd->setTextColor(foreground);
         _lcd->setCursor(4,y+1);
 
@@ -115,7 +115,7 @@ void Settings::DrawMenu(int firstItem, int selectedItem)
 
 void Settings::ChangeSetting(int selectedItem)
 {
-    _lcd->fillRect(0, 11, 128, 53, BLACK);
+    _lcd->fillRect(1, 11, 128, 53, BLACK);
 
     switch(selectedItem)
     {
@@ -140,7 +140,7 @@ void Settings::ChangeSetting(int selectedItem)
             */
     }    
 
-    _lcd->fillRect(0, 11, 128, 53, BLACK);
+    _lcd->fillRect(1, 11, 128, 53, BLACK);
 }
 
 void Settings::ResetMaxMin()
@@ -174,21 +174,21 @@ void Settings::MenuWifi()
         if (!every.Ready())
             continue;
 
-        _lcd->fillRect(0, 11, 128, 53, BLACK);
+        _lcd->fillRect(1, 11, 128, 53, BLACK);
 
-        _lcd->setCursor(0,14);
+        _lcd->setCursor(1, 14);
         _lcd->print("Status:");
         _lcd->print(_network->GetStatus());
 
-        _lcd->setCursor(0,24);
+        _lcd->setCursor(1,24);
         _lcd->print("SSID:");
         _lcd->print(_network->GetSSID());
 
-        _lcd->setCursor(0,34);
+        _lcd->setCursor(1,34);
         _lcd->print("RSSI:");
         _lcd->print(_network->GetRSSI());
 
-        _lcd->setCursor(0,44);
+        _lcd->setCursor(1,44);
         _lcd->print("IP:");
         _lcd->print(_network->GetIP());
     
