@@ -11,6 +11,7 @@
 #include "ClockTime.h"
 #include "Settings.h"
 #include "TheWifi.h"
+#include "RemoteStation.h"
 
 #define EEPROM_SIZE  250
 
@@ -23,6 +24,7 @@ Button *leftButton;
 Button *middleButton; 
 Button *rightButton; 
 TheWifi *network;
+RemoteStation *remoteStation;
 
 Interval *ntpInterval;
 
@@ -58,6 +60,8 @@ void setup()
 
   network = new TheWifi(0, &lcd);
   ntpInterval = new Interval(3600000, true);
+
+  remoteStation = new RemoteStation();
 }
 
 void loop() 
@@ -91,6 +95,9 @@ void loop()
 
   if (mode == 0)
     network->Render();
+
+  if (!remoteStation->Connected)
+    remoteStation->Connect();
 
   lcd.display();
 

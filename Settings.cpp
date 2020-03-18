@@ -27,7 +27,7 @@ void Settings::UpdateSettingsUI()
     _lcd->setTextColor(WHITE);
     _lcd->setCursor(10,0);
     _lcd->print(F("Configuration Menu"));
-    _lcd->drawFastHLine(0, 10, 128, WHITE);
+    _lcd->drawFastHLine(1, 10, 127, WHITE);
 
     _lcd->display();
 
@@ -79,7 +79,7 @@ void Settings::DrawMenu(int firstItem, int selectedItem)
         uint16_t background = currentItem == selectedItem ? WHITE : BLACK;
         uint16_t foreground = currentItem == selectedItem ? BLACK : WHITE;
 
-        _lcd->fillRect(1, y, 128, 10, background);
+        _lcd->fillRect(1, y, 127, 10, background);
         _lcd->setTextColor(foreground);
         _lcd->setCursor(4,y+1);
 
@@ -115,7 +115,7 @@ void Settings::DrawMenu(int firstItem, int selectedItem)
 
 void Settings::ChangeSetting(int selectedItem)
 {
-    _lcd->fillRect(1, 11, 128, 53, BLACK);
+    _lcd->fillRect(1, 11, 127, 53, BLACK);
 
     switch(selectedItem)
     {
@@ -140,7 +140,7 @@ void Settings::ChangeSetting(int selectedItem)
             */
     }    
 
-    _lcd->fillRect(1, 11, 128, 53, BLACK);
+    _lcd->fillRect(1, 11, 127, 53, BLACK);
 }
 
 void Settings::ResetMaxMin()
@@ -174,7 +174,7 @@ void Settings::MenuWifi()
         if (!every.Ready())
             continue;
 
-        _lcd->fillRect(1, 11, 128, 53, BLACK);
+        _lcd->fillRect(1, 11, 127, 53, BLACK);
 
         _lcd->setCursor(1, 14);
         _lcd->print("Status:");

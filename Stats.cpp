@@ -40,9 +40,9 @@ void Stats::Render()
   _lcd->setTextColor(WHITE);
   
   if (_mode > 1)
-    _lcd->fillRect(1, 0, 128, 64, BLACK);   
+    _lcd->fillRect(1, 0, 127, 64, BLACK);   
   else
-    _lcd->fillRect(1, 38, 128, 26, BLACK);   
+    _lcd->fillRect(1, 38, 127, 26, BLACK);   
 
   float temperature = _temperatureSensor->GetTemperature();
   float humidity = _temperatureSensor->GetHumidity();
@@ -152,7 +152,7 @@ void Stats::RenderStyle0()
 
 void Stats::RenderStyle1()
 {
-  _lcd->drawFastHLine(1, 38, 128, WHITE);
+  _lcd->drawFastHLine(1, 38, 127, WHITE);
 
   printTemp(1, 44, F(" Temp:"), (int)round(_temperatureSensor->GetTemperature()));
   printTemp(67, 44, F("DewP:"), (int)round(_temperatureSensor->GetDewpoint()));
@@ -182,7 +182,7 @@ void Stats::RenderStyle2()
   _lcd->setCursor(64 - ((18 * 6)/2) ,25);
   _lcd->print(F("Degrees Centigrade"));
 
-  _lcd->drawFastHLine(1, 38, 128, WHITE);
+  _lcd->drawFastHLine(1, 38, 127, WHITE);
 
   printTemp(1, 42, F("Max: "), _temperatureSensor->GetMaxTemperature());
   printTemp(1, 54, F("Min: "), _temperatureSensor->GetMinTemperature());
@@ -203,7 +203,7 @@ void Stats::RenderStyle3()
   _lcd->setCursor(64 - ((16 * 6)/2) ,25);
   _lcd->print(F("Percent Humidity"));
 
-  _lcd->drawFastHLine(1, 38, 128, WHITE);
+  _lcd->drawFastHLine(1, 38, 127, WHITE);
 
   printHumidity(1, 42, F("Max: "), _temperatureSensor->GetMaxHumidity());
   printHumidity(1, 54, F("Min: "), _temperatureSensor->GetMinHumidity());
@@ -224,7 +224,7 @@ void Stats::RenderStyle4()
   _lcd->setCursor(64 - ((18 * 6)/2) ,25);
   _lcd->print(F("Millibars Pressure"));
 
-  _lcd->drawFastHLine(1, 38, 128, WHITE);
+  _lcd->drawFastHLine(1, 38, 127, WHITE);
 
   printPressure(1,42,F("Max: "), _pressureSensor->GetMaxPressure());
   printPressure(1,54,F("Min: "), _pressureSensor->GetMinPressure());

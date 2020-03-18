@@ -33,23 +33,23 @@ void TheWifi::Render()
     if (!_timer->Ready())
       return;
 
-    _lcd->fillRect(120,0, 8, 8, BLACK);
+    _lcd->fillRect(119,0, 8, 8, BLACK);
 
     if (WiFi.status() != WL_CONNECTED)
     {
-        _lcd->drawBitmap(110, 0, wifiOff, 8, 8, 1);
+        _lcd->drawBitmap(119, 0, wifiOff, 8, 8, 1);
         Serial.println("Not connected");
     }
     else
     {
         switch (GetStrength())
         {
-            case 0: _lcd->drawBitmap(120, 0, wifiPower1, 8, 8, 1); break;
-            case 1: _lcd->drawBitmap(120, 0, wifiPower2, 8, 8, 1); break;
-            case 2: _lcd->drawBitmap(120, 0, wifiPower3, 8, 8, 1); break;
-            case 3: _lcd->drawBitmap(120, 0, wifiPower4, 8, 8, 1); break;
-            case 4: _lcd->drawBitmap(120, 0, wifiPower5, 8, 8, 1); break;
-            default: _lcd->drawBitmap(120, 0, wifiPower6, 8, 8, 1); break;
+            case 0: _lcd->drawBitmap(119, 0, wifiPower1, 8, 8, 1); break;
+            case 1: _lcd->drawBitmap(119, 0, wifiPower2, 8, 8, 1); break;
+            case 2: _lcd->drawBitmap(119, 0, wifiPower3, 8, 8, 1); break;
+            case 3: _lcd->drawBitmap(119, 0, wifiPower4, 8, 8, 1); break;
+            case 4: _lcd->drawBitmap(119, 0, wifiPower5, 8, 8, 1); break;
+            default: _lcd->drawBitmap(119, 0, wifiPower6, 8, 8, 1); break;
         }
     }
 

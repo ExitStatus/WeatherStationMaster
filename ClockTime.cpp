@@ -55,7 +55,7 @@ void ClockTime::Render(bool display)
       return;
 
   RtcDateTime now = _rtc->GetDateTime();
-  _lcd->fillRect(1, 0, 120,38, BLACK);
+  _lcd->fillRect(1, 0, 118,38, BLACK);
   
   _lcd->setCursor(28,14);
   _lcd->setTextSize(1);
